@@ -1,0 +1,143 @@
+{
+  $schema httpsvega.github.ioschemavega-litev5.json,
+  usermeta {
+    deneb {
+      build 1.4.0.0,
+      metaVersion 1,
+      provider vegaLite,
+      providerVersion 5.4.0
+    },
+    interactivity {
+      tooltip true,
+      contextMenu true,
+      selection false,
+      highlight false,
+      dataPointLimit 50
+    },
+    information {
+      name Single Bar 2,
+      description [No Description Provided],
+      author [No Author Details Provided],
+      uuid 45f05f5a-efd1-48ed-8b52-a2a476926394,
+      generated 2023-02-28T035552.375Z
+    },
+    dataset [
+      {
+        key __0__,
+        name Porcentage Value,
+        description ,
+        type numeric,
+        kind measure
+      }
+    ]
+  },
+  config {
+    view {stroke transparent},
+    font Segoe UI,
+    arc {},
+    bar {},
+    line {
+      strokeWidth 3,
+      strokeCap round,
+      strokeJoin round
+    },
+    text {
+      font Segoe UI,
+      fontSize 12,
+      fill #605E5C
+    },
+    axis {
+      ticks false,
+      grid false,
+      domain false,
+      labelColor #605E5C,
+      labelFontSize 12,
+      titleFont wf_standard-font, helvetica, arial, sans-serif,
+      titleColor #252423,
+      titleFontSize 16,
+      titleFontWeight normal
+    },
+    axisQuantitative {
+      tickCount 3,
+      grid true,
+      gridColor #C8C6C4,
+      gridDash [1, 5],
+      labelFlush false
+    },
+    axisX {labelPadding 5},
+    axisY {labelPadding 10},
+    header {
+      titleFont wf_standard-font, helvetica, arial, sans-serif,
+      titleFontSize 16,
+      titleColor #252423,
+      labelFont Segoe UI,
+      labelFontSize 13.333333333333332,
+      labelColor #605E5C
+    },
+    legend {
+      titleFont Segoe UI,
+      titleFontWeight bold,
+      titleColor #605E5C,
+      labelFont Segoe UI,
+      labelFontSize 13.333333333333332,
+      labelColor #605E5C,
+      symbolType circle,
+      symbolSize 75
+    }
+  },
+  Weight 100,
+  height 0,
+  data {name dataset},
+  encoding {
+    y {
+      type nominal,
+      title 
+    },
+    x {
+      type quantitative,
+      axis false
+    }
+  },
+  layer [
+    {
+      mark {
+        type bar,
+        opacity 0.1,
+        cornerRadius 30,
+        height {band 0.2},
+        color grey,
+        tooltip true
+      },
+      encoding {x {datum 1}}
+    },
+    {
+      mark {
+        type tick,
+        thickness 5,
+        color {
+          x1 1,
+          y1 0.5,
+          x2 1,
+          y2 1,
+          r1 0,
+          r2 0.9,
+          gradient radial,
+          stops [
+            {
+              offset 0.3,
+              color #69CFCC
+            },
+            {
+              offset 1,
+              color #695DE2
+            }
+          ]
+        },
+        tooltip true
+      },
+      encoding {
+        x {field __0__}
+      }
+    }
+  ]
+}

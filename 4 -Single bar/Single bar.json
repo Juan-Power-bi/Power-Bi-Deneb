@@ -1,0 +1,203 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "usermeta": {
+    "deneb": {
+      "build": "1.4.0.0",
+      "metaVersion": 1,
+      "provider": "vegaLite",
+      "providerVersion": "5.4.0"
+    },
+    "interactivity": {
+      "tooltip": true,
+      "contextMenu": true,
+      "selection": false,
+      "highlight": false,
+      "dataPointLimit": 50
+    },
+    "information": {
+      "name": "Single Bar ",
+      "description": "[No Description Provided]",
+      "author": "Juan Bohorquez",
+      "uuid": "5840f7b6-26c5-4c7c-8453-f1caf2c73b44",
+      "generated": "2023-02-28T03:51:09.423Z"
+    },
+    "dataset": [
+      {
+        "key": "__0__",
+        "name": "a",
+        "description": "",
+        "type": "numeric",
+        "kind": "measure"
+      },
+      {
+        "key": "__1__",
+        "name": "val",
+        "description": "",
+        "type": "numeric",
+        "kind": "measure"
+      }
+    ]
+  },
+  "config": {
+    "view": {"stroke": "transparent"}
+  },
+  "description": "Dataviz by Dav Bacci",
+  "description2": "Juan Bohorquez",
+  "width": "container",
+  "height": "container",
+  "padding": 30,
+  "data": {"name": "dataset"},
+  "transform": [
+    {
+      "calculate": "sequence(0,20)",
+      "as": "sequence"
+    },
+    {
+      "calculate": "20*datum['__1__']",
+      "as": "val2"
+    },
+    {
+      "calculate": "sequence(0,datum['__1__2'])",
+      "as": "sequence2"
+    },
+    {
+      "flatten": [
+        "sequence",
+        "sequence2"
+      ]
+    },
+    {"calculate": "1", "as": "b"},
+    {
+      "calculate": "datum.sequence2 ==null? null:1",
+      "as": "c"
+    }
+  ],
+  "view": {"stroke": "transparent"},
+  "encoding": {
+    "y": {
+      "field": "__0__",
+      "type": "nominal",
+      "scale": {
+        "paddingInner": 0.1,
+        "paddingOuter": 0
+      },
+      "axis": null
+    },
+    "x": {
+      "field": "b",
+      "type": "quantitative",
+      "axis": null
+    }
+  },
+  "layer": [
+    {
+      "mark": {
+        "type": "bar",
+        "height": {"band": 0.8},
+        "yOffset": 6,
+        "stroke": "#ffffff",
+        "strokeWidth": 3,
+        "tooltip": true,
+        "xOffset": 0,
+        "color": {
+          "x1": 1,
+          "y1": 0.5,
+          "x2": 1,
+          "y2": 1,
+          "r1": 0,
+          "r2": 0.9,
+          "gradient": "radial",
+          "stops": [
+            {
+              "offset": 0.3,
+              "color": "#69CFCC"
+            },
+            {
+              "offset": 1,
+              "color": "#695DE2"
+            }
+          ]
+        }
+      },
+      "encoding": {
+        "y": {
+          "field": "__0__",
+          "type": "nominal",
+          "scale": {
+            "paddingInner": 0.1,
+            "paddingOuter": 0
+          }
+        },
+        "x": {
+          "field": "b",
+          "type": "quantitative",
+          "axis": null
+        },
+        "color": {"value": "#ECF0F1"}
+      }
+    },
+    {
+      "mark": {
+        "type": "bar",
+        "height": {"band": 0.82},
+        "yOffset": 6,
+        "stroke": "#ffffff",
+        "strokeWidth": 3,
+        "tooltip": true,
+        "color": {
+          "x1": 1,
+          "y1": 0.5,
+          "x2": 1,
+          "y2": 1,
+          "r1": 0,
+          "r2": 0.9,
+          "gradient": "radial",
+          "stops": [
+            {
+              "offset": 0.3,
+              "color": "#69CFCC"
+            },
+            {
+              "offset": 1,
+              "color": "#695DE2"
+            }
+          ]
+        }
+      },
+      "encoding": {
+        "y": {
+          "field": "__0__",
+          "type": "nominal",
+          "scale": {
+            "paddingInner": 0.1,
+            "paddingOuter": 0
+          }
+        },
+        "x": {
+          "field": "c",
+          "type": "quantitative",
+          "axis": null
+        },
+        "color": {
+          "x1": 1,
+          "y1": 0.5,
+          "x2": 1,
+          "y2": 1,
+          "r1": 0,
+          "r2": 0.9,
+          "gradient": "radial",
+          "stops": [
+            {
+              "offset": 0.3,
+              "color": "#69CFCC"
+            },
+            {
+              "offset": 1,
+              "color": "#695DE2"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
