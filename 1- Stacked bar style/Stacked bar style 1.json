@@ -1,0 +1,255 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "usermeta": {
+    "deneb": {
+      "build": "1.4.0.0",
+      "metaVersion": 1,
+      "provider": "vegaLite",
+      "providerVersion": "5.4.0"
+    },
+    "interactivity": {
+      "tooltip": true,
+      "contextMenu": true,
+      "selection": false,
+      "highlight": false,
+      "dataPointLimit": 50
+    },
+    "information": {
+      "name": "Stacked bar (%)",
+      "description": "[No Description Provided]",
+      "author": "Juan Bohorquez",
+      "uuid": "c75abf26-9736-4c99-974f-321497b48a1d",
+      "generated": "2023-02-21T01:37:41.509Z"
+    },
+    "dataset": [
+      {
+        "key": "__0__",
+        "name": "Porcentage Value",
+        "description": "",
+        "type": "numeric",
+        "kind": "measure"
+      }
+    ]
+  },
+  "config": {
+    "view": {"stroke": "transparent"},
+    "font": "Segoe UI",
+    "arc": {},
+    "area": {
+      "line": true,
+      "opacity": 0.6
+    },
+    "bar": {},
+    "line": {
+      "strokeWidth": 3,
+      "strokeCap": "round",
+      "strokeJoin": "round"
+    },
+    "path": {},
+    "point": {
+      "filled": true,
+      "size": 75
+    },
+    "rect": {},
+    "shape": {},
+    "symbol": {
+      "strokeWidth": 2.5,
+      "size": 50
+    },
+    "text": {
+      "font": "Segoe UI",
+      "fontSize": 12,
+      "fill": "#605E5C"
+    },
+    "axis": {
+      "ticks": false,
+      "grid": false,
+      "domain": false,
+      "labelColor": "#605E5C",
+      "labelFontSize": 12,
+      "titleFont": "wf_standard-font, helvetica, arial, sans-serif",
+      "titleColor": "#252423",
+      "titleFontSize": 16,
+      "titleFontWeight": "normal"
+    },
+    "axisQuantitative": {
+      "tickCount": 3,
+      "grid": true,
+      "gridColor": "#C8C6C4",
+      "gridDash": [1, 5],
+      "labelFlush": false
+    },
+    "axisX": {"labelPadding": 5},
+    "axisY": {"labelPadding": 10},
+    "header": {
+      "titleFont": "wf_standard-font, helvetica, arial, sans-serif",
+      "titleFontSize": 16,
+      "titleColor": "#252423",
+      "labelFont": "Segoe UI",
+      "labelFontSize": 13.333333333333332,
+      "labelColor": "#605E5C"
+    },
+    "legend": {
+      "titleFont": "Segoe UI",
+      "titleFontWeight": "bold",
+      "titleColor": "#605E5C",
+      "labelFont": "Segoe UI",
+      "labelFontSize": 13.333333333333332,
+      "labelColor": "#605E5C",
+      "symbolType": "circle",
+      "symbolSize": 75
+    }
+  },
+  "Weight": 100,
+  "height": 0,
+  "data": {"name": "dataset"},
+  "layer": [
+    {
+      "mark": {
+        "type": "bar",
+        "cornerRadius": 20,
+        "color": {
+          "x1": 1,
+          "y1": 0.5,
+          "x2": 1,
+          "y2": 1,
+          "r1": 0,
+          "r2": 0.9,
+          "gradient": "radial",
+          "stops": [
+            {
+              "offset": 0.3,
+              "color": "#69CFCC"
+            },
+            {
+              "offset": 1,
+              "color": "#695DE2"
+            }
+          ]
+        },
+        "tooltip": true,
+        "Weight": 100,
+        "height": 25
+      },
+      "encoding": {
+        "x": {"field": "__0__"}
+      }
+    },
+    {
+      "mark": {
+        "type": "circle",
+        "opacity": 1,
+        "color": "#F0F3F4",
+        "size": 1100
+      },
+      "encoding": {
+        "x": {"field": "__0__"}
+      }
+    },
+    {
+      "mark": {
+        "type": "circle",
+        "opacity": 1,
+        "color": "white",
+        "size": 1000
+      },
+      "encoding": {
+        "x": {"field": "__0__"}
+      }
+    },
+    {
+      "mark": {
+        "type": "circle",
+        "fill": {
+          "x1": 1,
+          "y1": 0.5,
+          "x2": 1,
+          "y2": 1,
+          "r1": 0,
+          "r2": 0.9,
+          "gradient": "radial",
+          "stops": [
+            {
+              "offset": 0.3,
+              "color": "#69CFCC"
+            },
+            {
+              "offset": 1,
+              "color": "#695DE2"
+            }
+          ]
+        },
+        "opacity": 1,
+        "size": 800
+      },
+      "encoding": {
+        "x": {"field": "__0__"}
+      }
+    },
+    {
+      "mark": {
+        "type": "bar",
+        "cornerRadius": 20,
+        "color": "#0D6ABF",
+        "tooltip": true,
+        "Weight": 100,
+        "height": 25
+      },
+      "encoding": {
+        "x": {
+          "field": "__0____highlight"
+        },
+        "opacity": {
+          "condition": {
+            "test": {
+              "field": "_selected_",
+              "equal": "off"
+            },
+            "value": 0
+          },
+          "value": 1
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "bar",
+        "opacity": 0.3,
+        "cornerRadius": 30,
+        "color": "grey",
+        "tooltip": true,
+        "Weight": 200,
+        "height": 25
+      },
+      "encoding": {"x": {"datum": 1}}
+    },
+    {
+      "mark": {
+        "type": "text",
+        "tooltip": true,
+        "align": "left",
+        "baseline": "middle",
+        "dx": -10,
+        "fontWeight": "bold",
+        "color": "white"
+      },
+      "encoding": {
+        "text": {
+          "field": "__0__",
+          "format": ".0%"
+        },
+        "x": {"field": "__0__"}
+      }
+    }
+  ],
+  "encoding": {
+    "y": {
+      "type": "nominal",
+      "title": ""
+    },
+    "x": {
+      "type": "quantitative",
+      "axis": false
+    }
+  }
+}
