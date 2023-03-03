@@ -1,0 +1,288 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "usermeta": {
+    "deneb": {
+      "build": "1.4.0.0",
+      "metaVersion": 1,
+      "provider": "vegaLite",
+      "providerVersion": "5.4.0"
+    },
+    "interactivity": {
+      "tooltip": true,
+      "contextMenu": true,
+      "selection": false,
+      "highlight": false,
+      "dataPointLimit": 50
+    },
+    "information": {
+      "name": "% Donut 4",
+      "description": "Power BI Design",
+      "author": "Juan Bohorquez",
+      "uuid": "60d86c49-fef6-485b-a06d-49ae5de40300",
+      "generated": "2023-03-03T15:26:06.424Z"
+    },
+    "dataset": [
+      {
+        "key": "__0__",
+        "name": "Porcentage Value",
+        "description": "",
+        "type": "numeric",
+        "kind": "measure"
+      }
+    ]
+  },
+  "config": {
+    "view": {"stroke": "transparent"},
+    "font": "Segoe UI",
+    "arc": {},
+    "area": {
+      "line": true,
+      "opacity": 0.6
+    },
+    "bar": {},
+    "line": {
+      "strokeWidth": 3,
+      "strokeCap": "round",
+      "strokeJoin": "round"
+    },
+    "path": {},
+    "point": {
+      "filled": true,
+      "size": 75
+    },
+    "rect": {},
+    "shape": {},
+    "symbol": {
+      "strokeWidth": 1.5,
+      "size": 50
+    },
+    "text": {
+      "font": "Segoe UI",
+      "fontSize": 12,
+      "fill": "#605E5C"
+    },
+    "axis": {
+      "ticks": false,
+      "grid": false,
+      "domain": false,
+      "labelColor": "#605E5C",
+      "labelFontSize": 12,
+      "titleFont": "wf_standard-font, helvetica, arial, sans-serif",
+      "titleColor": "#252423",
+      "titleFontSize": 16,
+      "titleFontWeight": "normal"
+    },
+    "axisQuantitative": {
+      "tickCount": 3,
+      "grid": true,
+      "gridColor": "#C8C6C4",
+      "gridDash": [1, 5],
+      "labelFlush": false
+    },
+    "axisX": {"labelPadding": 5},
+    "axisY": {"labelPadding": 10},
+    "header": {
+      "titleFont": "wf_standard-font, helvetica, arial, sans-serif",
+      "titleFontSize": 16,
+      "titleColor": "#252423",
+      "labelFont": "Segoe UI",
+      "labelFontSize": 13.333333333333332,
+      "labelColor": "#605E5C"
+    },
+    "legend": {
+      "titleFont": "Segoe UI",
+      "titleFontWeight": "bold",
+      "titleColor": "#605E5C",
+      "labelFont": "Segoe UI",
+      "labelFontSize": 13.333333333333332,
+      "labelColor": "#605E5C",
+      "symbolType": "circle",
+      "symbolSize": 75
+    }
+  },
+  "data": {"name": "dataset"},
+  "transform": [
+    {
+      "calculate": "2*PI*datum['__0__']",
+      "as": "Ring1_Theta2"
+    },
+    {
+      "calculate": "2*PI*datum['__0__']-0.5",
+      "as": "Ring1_Theta3"
+    }
+  ],
+  "params": [
+    {"name": "ring_max", "value": 50},
+    {"name": "ring_width", "value": 14},
+    {"name": "ring_gap", "value": -30},
+    {
+      "name": "ring0_color",
+      "value": "#0D6ABF"
+    },
+    {
+      "name": "ring1_color",
+      "value": "#0D6ABF"
+    },
+    {
+      "name": "ring2_color",
+      "value": "#CFCFCF"
+    },
+    {
+      "name": "ring3_color",
+      "value": "#FFFFFF"
+    },
+    {
+      "name": "label_color",
+      "value": "#000000"
+    },
+    {
+      "name": "ring_background_opacity",
+      "value": 0.3
+    },
+    {
+      "name": "ring0_percent",
+      "value": 100
+    },
+    {
+      "name": "ring0_outer",
+      "expr": "ring_max+60"
+    },
+    {
+      "name": "ring0_inner",
+      "expr": "ring_max-20"
+    },
+    {
+      "name": "ring2_percent",
+      "value": 100
+    },
+    {
+      "name": "ring2_outer",
+      "expr": "68"
+    },
+    {
+      "name": "ring2_inner",
+      "expr": "64"
+    },
+    {
+      "name": "ring3_percent",
+      "value": 100
+    },
+    {
+      "name": "ring3_outer",
+      "expr": "38"
+    },
+    {
+      "name": "ring3_inner",
+      "expr": "42"
+    },
+    {
+      "name": "ring1_outer",
+      "expr": "ring0_inner-ring_gap"
+    },
+    {
+      "name": "ring1_inner",
+      "expr": "ring1_outer-ring_width"
+    },
+    {
+      "name": "ring1_middle",
+      "expr": "(ring1_outer+ring1_inner)/2"
+    }
+  ],
+  "layer": [
+    {
+      "name": "RING OPAQUE BACKGROUND",
+      "mark": {
+        "type": "arc",
+        "radius": {
+          "expr": "ring1_outer"
+        },
+        "radius2": {
+          "expr": "ring1_inner"
+        },
+        "theta": 0,
+        "theta2": 6.284
+      },
+      "encoding": {
+        "color": {
+          "value": {
+            "expr": "ring2_color"
+          }
+        },
+        "opacity": {
+          "value": {
+            "expr": "ring_background_opacity"
+          }
+        }
+      }
+    },
+    {
+      "name": "RING",
+      "mark": {
+        "type": "arc",
+        "color": "#0D6ABF",
+        "tooltip": true,
+        "radius": {
+          "expr": "ring1_outer"
+        },
+        "radius2": {
+          "expr": "ring1_inner"
+        },
+        "theta": 0,
+        "theta2": {
+          "expr": "datum.Ring1_Theta2"
+        },
+        "cornerRadius": 10
+      },
+      "encoding": {
+        "tooltip": [
+          {
+            "field": "__0__",
+            "type": "nominal",
+            "title": "% of Total Sales",
+            "format": "#%",
+            "formatType": "pbiFormat"
+          }
+        ]
+      }
+    },
+    {
+      "name": "RING2",
+      "mark": {
+        "type": "arc",
+        "color": "#FFFFFF",
+        "tooltip": true,
+        "radius": {"expr": "50"},
+        "radius2": {
+          "expr": "ring1_inner+10"
+        },
+        "theta": {
+          "expr": "datum.Ring1_Theta2-0.2"
+        },
+        "theta2": {
+          "expr": "datum.Ring1_Theta2-0.1"
+        },
+        "cornerRadius": 15
+      }
+    },
+    {
+      "name": "VALUE",
+      "mark": {
+        "type": "text",
+        "fontSize": 24
+      },
+      "encoding": {
+        "text": {
+          "field": "__0__",
+          "type": "nominal",
+          "format": "#%",
+          "formatType": "pbiFormat"
+        },
+        "color": {
+          "value": {
+            "expr": "label_color"
+          }
+        }
+      }
+    }
+  ]
+}

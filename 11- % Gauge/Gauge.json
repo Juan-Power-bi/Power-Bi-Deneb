@@ -1,0 +1,285 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "usermeta": {
+    "deneb": {
+      "build": "1.4.0.0",
+      "metaVersion": 1,
+      "provider": "vegaLite",
+      "providerVersion": "5.4.0"
+    },
+    "interactivity": {
+      "tooltip": true,
+      "contextMenu": true,
+      "selection": false,
+      "highlight": false,
+      "dataPointLimit": 50
+    },
+    "information": {
+      "name": "Gauge",
+      "description": "Power BI design ",
+      "author": "Juan Bohorquez",
+      "uuid": "94d41f2a-13c2-46cc-9078-955ecd63b045",
+      "generated": "2023-03-03T15:24:50.777Z"
+    },
+    "dataset": [
+      {
+        "key": "__0__",
+        "name": "Percent",
+        "description": "",
+        "type": "numeric",
+        "kind": "measure"
+      }
+    ]
+  },
+  "config": {
+    "view": {"stroke": "transparent"},
+    "font": "Segoe UI",
+    "arc": {},
+    "area": {
+      "line": true,
+      "opacity": 0.6
+    },
+    "bar": {},
+    "line": {
+      "strokeWidth": 3,
+      "strokeCap": "round",
+      "strokeJoin": "round"
+    },
+    "path": {},
+    "point": {
+      "filled": true,
+      "size": 75
+    },
+    "rect": {},
+    "shape": {},
+    "symbol": {
+      "strokeWidth": 1.5,
+      "size": 50
+    },
+    "text": {
+      "font": "Segoe UI",
+      "fontSize": 12,
+      "fill": "#605E5C"
+    },
+    "axis": {
+      "ticks": false,
+      "grid": false,
+      "domain": false,
+      "labelColor": "#605E5C",
+      "labelFontSize": 12,
+      "titleFont": "wf_standard-font, helvetica, arial, sans-serif",
+      "titleColor": "#252423",
+      "titleFontSize": 16,
+      "titleFontWeight": "normal"
+    },
+    "axisQuantitative": {
+      "tickCount": 3,
+      "grid": true,
+      "gridColor": "#C8C6C4",
+      "gridDash": [1, 5],
+      "labelFlush": false
+    },
+    "axisX": {"labelPadding": 5},
+    "axisY": {"labelPadding": 10},
+    "header": {
+      "titleFont": "wf_standard-font, helvetica, arial, sans-serif",
+      "titleFontSize": 16,
+      "titleColor": "#252423",
+      "labelFont": "Segoe UI",
+      "labelFontSize": 13.333333333333332,
+      "labelColor": "#605E5C"
+    },
+    "legend": {
+      "titleFont": "Segoe UI",
+      "titleFontWeight": "bold",
+      "titleColor": "#605E5C",
+      "labelFont": "Segoe UI",
+      "labelFontSize": 13.333333333333332,
+      "labelColor": "#605E5C",
+      "symbolType": "circle",
+      "symbolSize": 75
+    }
+  },
+  "name": "RADIAL_GAUGE",
+  "width": "container",
+  "heith": "container",
+  "data": {"name": "dataset"},
+  "transform": [
+    {
+      "calculate": "360 - ( 240 / 2 )",
+      "as": "_arc_start_degrees"
+    },
+    {
+      "calculate": "2*PI*datum['Porcentage Value']+0.5",
+      "as": "Ring1_Theta3"
+    },
+    {
+      "calculate": "0 + ( 240 / 2 )",
+      "as": "_arc_end_degrees"
+    },
+    {
+      "calculate": "2 * PI * ( datum['_arc_start_degrees'] - 360 ) / 360",
+      "as": "_arc_start_radians"
+    },
+    {
+      "calculate": "2 * PI * datum['_arc_end_degrees'] / 360",
+      "as": "_arc_end_radians"
+    },
+    {
+      "calculate": "datum['_arc_end_radians'] - datum['_arc_start_radians']",
+      "as": "_arc_total_radians"
+    },
+    {
+      "calculate": "datum['_arc_start_radians']",
+      "as": "_ring_start_radians"
+    },
+    {
+      "calculate": "datum['_arc_start_radians'] + ( datum['_arc_total_radians'] * datum['__0__'] )",
+      "as": "_ring_end_radians"
+    }
+  ],
+  "params": [
+    {"name": "ring_max", "value": 70},
+    {"name": "ring_width", "value": 15},
+    {"name": "ring_gap", "value": 5},
+    {
+      "name": "ring0_color",
+      "value": "#FFFFFF"
+    },
+    {
+      "name": "ring1_color",
+      "value": "#0F4C81"
+    },
+    {
+      "name": "label_color",
+      "value": "#000000"
+    },
+    {
+      "name": "ring_background_opacity",
+      "value": 0.3
+    },
+    {
+      "name": "ring0_percent",
+      "value": 100
+    },
+    {
+      "name": "ring0_outer",
+      "expr": "ring_max+2"
+    },
+    {
+      "name": "ring0_inner",
+      "expr": "ring_max+1"
+    },
+    {
+      "name": "ring1_outer",
+      "expr": "ring0_inner-ring_gap"
+    },
+    {
+      "name": "ring1_inner",
+      "expr": "ring1_outer-ring_width"
+    },
+    {
+      "name": "ring1_middle",
+      "expr": "(ring1_outer+ring1_inner)/2"
+    }
+  ],
+  "layer": [
+    {
+      "name": "RING OPAQUE BACKGROUND",
+      "mark": {
+        "type": "arc",
+        "radius": {
+          "expr": "ring1_outer"
+        },
+        "radius2": {
+          "expr": "ring1_inner"
+        },
+        "theta": {
+          "expr": "datum['_arc_start_radians']"
+        },
+        "theta2": {
+          "expr": "datum['_arc_end_radians']"
+        },
+        "cornerRadius": 10
+      },
+      "encoding": {
+        "color": {
+          "value": {
+            "expr": "ring1_color"
+          }
+        },
+        "opacity": {
+          "value": {
+            "expr": "ring_background_opacity"
+          }
+        }
+      }
+    },
+    {
+      "name": "RING",
+      "mark": {
+        "type": "arc",
+        "radius": {
+          "expr": "ring1_outer"
+        },
+        "radius2": {
+          "expr": "ring1_inner"
+        },
+        "theta": {
+          "expr": "datum['_ring_start_radians']"
+        },
+        "theta2": {
+          "expr": "datum['_ring_end_radians']"
+        },
+        "cornerRadius": 10
+      },
+      "encoding": {
+        "color": {
+          "value": {
+            "expr": "ring1_color"
+          }
+        }
+      }
+    },
+    {
+      "name": "RING2",
+      "mark": {
+        "type": "arc",
+        "filled": false,
+        "fill": "white",
+        "color": "#695DE2",
+        "tooltip": true,
+        "radius": {"expr": "55"},
+        "radius2": {
+          "expr": "ring1_inner+10"
+        },
+        "theta": {
+          "expr": "datum['_ring_end_radians']-0.2"
+        },
+        "theta2": {
+          "expr": "datum['_ring_end_radians']-0.09"
+        },
+        "cornerRadius": 15
+      }
+    },
+    {
+      "description": "VALUE",
+      "mark": {
+        "type": "text",
+        "fontSize": 20,
+        "color": "black"
+      },
+      "encoding": {
+        "text": {
+          "field": "__0__",
+          "type": "quantitative",
+          "formatType": "pbiFormat",
+          "format": "0%"
+        },
+        "color": {
+          "description": "VALUE"
+        }
+      }
+    }
+  ]
+}
