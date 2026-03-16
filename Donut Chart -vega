@@ -1,0 +1,148 @@
+{
+  "$schema": "https://vega.github.io/schema/vega/v5.json",
+  "width": 780, "height": 660,
+  "autosize": "none",
+  "padding": {"left": 10, "right": 20, "top": 10, "bottom": 10},
+  "signals": [
+    {"name": "cx", "update": "width / 2"},
+    {"name": "cy", "update": "height / 2"},
+    {"name": "hoveredDatum", "value": null,
+      "on": [
+        {"events": "@innerArc:mouseover", "update": "datum"},
+        {"events": "@innerArc:mouseout", "update": "null"}
+      ]
+    },
+    {"name": "hoveredCountry", "update": "hoveredDatum ? hoveredDatum.Country : null"},
+    {"name": "hoveredSales",   "update": "hoveredDatum ? hoveredDatum.TotalSales : null"},
+    {"name": "hoveredStart",   "update": "hoveredDatum ? hoveredDatum.startAngle : (-PI/2)"},
+    {"name": "hoveredEnd",     "update": "hoveredDatum ? hoveredDatum.endAngle : (3*PI/2)"}
+  ],
+  "data": [
+    {"name": "dataset"},
+    {
+      "name": "countryTotals", "source": "dataset",
+      "transform": [
+        {"type": "aggregate", "groupby": ["Country"], "fields": ["$ Sales"], "ops": ["sum"], "as": ["TotalSales"]},
+        {"type": "window", "ops": ["rank"], "as": ["rank"], "sort": {"field": "TotalSales", "order": "descending"}},
+        {"type": "formula", "as": "colorHex",
+          "expr": "datum.rank===1?'#1565C0':datum.rank===2?'#E65100':datum.rank===3?'#2E7D32':datum.rank===4?'#6A1B9A':datum.rank===5?'#C62828':datum.rank===6?'#00695C':datum.rank===7?'#F57F17':datum.rank===8?'#AD1457':'#37474F'"},
+        {"type": "pie", "field": "TotalSales", "startAngle": {"signal": "-PI/2"}, "endAngle": {"signal": "3*PI/2"}}
+      ]
+    },
+    {
+      "name": "grandTotal", "source": "countryTotals",
+      "transform": [{"type": "aggregate", "fields": ["TotalSales"], "ops": ["sum"], "as": ["GrandTotal"]}]
+    },
+    {
+      "name": "segmentData", "source": "dataset",
+      "transform": [
+        {"type": "filter", "expr": "hoveredCountry !== null && datum.Country === hoveredCountry"},
+        {"type": "aggregate", "groupby": ["Country","Segment"], "fields": ["$ Sales"], "ops": ["sum"], "as": ["SegSales"]},
+        {"type": "window", "ops": ["rank"], "as": ["segRank"], "sort": {"field": "SegSales", "order": "descending"}},
+        {"type": "formula", "as": "segColor",
+          "expr": "datum.segRank===1?'#5BC8E8':datum.segRank===2?'#3BAFD6':datum.segRank===3?'#89D8EE':datum.segRank===4?'#2196B3':datum.segRank===5?'#B8EBF7':'#0D7FA3'"},
+        {"type": "pie", "field": "SegSales", "startAngle": {"signal": "hoveredStart"}, "endAngle": {"signal": "hoveredEnd"}},
+        {"type": "formula", "as": "theta", "expr": "(datum.startAngle + datum.endAngle) / 2"},
+        {"type": "formula", "as": "arcSpan", "expr": "datum.endAngle - datum.startAngle"}
+      ]
+    }
+  ],
+  "marks": [
+    {
+      "type": "arc", "name": "innerArc",
+      "from": {"data": "countryTotals"},
+      "encode": {
+        "enter": {"x": {"signal": "cx"}, "y": {"signal": "cy"}, "stroke": {"value": "#fff"}, "strokeWidth": {"value": 2}, "cornerRadius": {"value": 3}, "cursor": {"value": "pointer"}},
+        "update": {
+          "startAngle": {"field": "startAngle"}, "endAngle": {"field": "endAngle"},
+          "innerRadius": {"value": 95}, "outerRadius": {"signal": "hoveredCountry === datum.Country ? 162 : 148"},
+          "fill": {"field": "colorHex"},
+          "fillOpacity": {"signal": "hoveredCountry === null || hoveredCountry === datum.Country ? 1 : 0.3"},
+          "tooltip": {"signal": "{'Country': datum.Country, 'Sales': '$' + format(datum.TotalSales, ',.0f'), 'Share': format(datum.TotalSales / data('grandTotal')[0].GrandTotal, '.1%')}"}
+        }
+      }
+    },
+    {
+      "type": "arc", "from": {"data": "segmentData"},
+      "encode": {
+        "enter": {"x": {"signal": "cx"}, "y": {"signal": "cy"}, "stroke": {"value": "#fff"}, "strokeWidth": {"value": 2}, "cornerRadius": {"value": 2}},
+        "update": {
+          "startAngle": {"field": "startAngle"}, "endAngle": {"field": "endAngle"},
+          "innerRadius": {"value": 170}, "outerRadius": {"value": 215},
+          "fill": {"field": "segColor"},
+          "tooltip": {"signal": "{'Segment': datum.Segment, 'Sales': '$' + format(datum.SegSales, ',.0f')}"}
+        }
+      }
+    },
+    
+    {
+      "type": "text", "from": {"data": "segmentData"},
+      "interactive": false,
+      "encode": {
+        "update": {
+          "x": {"signal": "cx"},
+          "y": {"signal": "cy"},
+          "radius": {"value": 270},
+          "theta": {"field": "theta"},
+          "text": {"signal": "'$' + format(datum.SegSales/1000,',.1f') + 'K'"},
+          "fontSize": {"value": 10},
+          "fontWeight": {"value": "bold"},
+          "fill": {"value": "#111111"},
+          "align": {"signal": "cos(datum.theta) > 0.1 ? 'left' : cos(datum.theta) < -0.1 ? 'right' : 'center'"},
+          "baseline": {"value": "bottom"}
+        }
+      }
+    },
+    {
+      "type": "text", "from": {"data": "segmentData"},
+      "interactive": false,
+      "encode": {
+        "update": {
+          "x": {"signal": "cx"},
+          "y": {"signal": "cy"},
+          "radius": {"value": 270},
+          "theta": {"field": "theta"},
+          "text": {"field": "Segment"},
+          "fontSize": {"value": 9},
+          "fill": {"value": "#555555"},
+          "align": {"signal": "cos(datum.theta) > 0.1 ? 'left' : cos(datum.theta) < -0.1 ? 'right' : 'center'"},
+          "baseline": {"value": "top"},
+          "limit": {"value": 90}
+        }
+      }
+    },
+    {
+      "type": "text",
+      "encode": {
+        "update": {
+          "x": {"signal": "cx"}, "y": {"signal": "cy - 14"},
+          "text": {"signal": "hoveredCountry ? hoveredCountry : 'Sales by'"},
+          "align": {"value": "center"}, "baseline": {"value": "middle"},
+          "fontSize": {"signal": "hoveredCountry ? 15 : 13"}, "fontWeight": {"value": "bold"}, "fill": {"value": "#222222"}
+        }
+      }
+    },
+    {
+      "type": "text",
+      "encode": {
+        "update": {
+          "x": {"signal": "cx"}, "y": {"signal": "cy + 8"},
+          "text": {"signal": "hoveredSales ? '$' + format(hoveredSales, ',.0f') : 'Country'"},
+          "align": {"value": "center"}, "baseline": {"value": "middle"},
+          "fontSize": {"value": 13}, "fill": {"value": "#555555"}
+        }
+      }
+    },
+    {
+      "type": "text",
+      "encode": {
+        "update": {
+          "x": {"signal": "cx"}, "y": {"signal": "cy + 26"},
+          "text": {"signal": "hoveredSales ? format(hoveredSales / data('grandTotal')[0].GrandTotal, '.1%') : ''"},
+          "align": {"value": "center"}, "baseline": {"value": "middle"},
+          "fontSize": {"value": 11}, "fill": {"value": "#888888"}
+        }
+      }
+    }
+  ]
+}
